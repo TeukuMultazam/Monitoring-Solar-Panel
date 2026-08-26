@@ -5,50 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart PV Monitoring</title>
     <!-- Font & Ikon -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; }
-        
-        /* Halaman Login */
-        #login-screen {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: #F4F7F6; 
+            overflow-x: hidden;
         }
-        .login-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
+        
+        /* Layout */
+        #wrapper { display: flex; width: 100%; }
+        
+        /* Sidebar Styling (Meniru Gambar) */
+        #sidebar {
+            width: 260px;
+            background-color: #2b3a4a;
+            color: white;
+            min-height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-brand { padding: 25px 20px; font-weight: 800; font-size: 1.1rem; text-align: center; letter-spacing: 1px; }
+        .nav-item { padding: 10px 20px; }
+        .nav-link { 
+            color: #aeb9c6; text-decoration: none; display: block; padding: 12px 15px; 
+            border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .nav-link:hover, .nav-link.active { background-color: #3498db; color: white; }
+        .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+        
+        /* Kotak Info Jam di Kiri Bawah */
+        .info-box {
+            margin-top: auto; padding: 20px; background-color: #212c38; 
+            margin: 20px; border-radius: 10px; font-size: 0.9rem;
         }
 
-        /* Dashboard */
+        /* Main Content */
+        #page-content {
+            flex: 1; margin-left: 260px; padding: 30px;
+        }
+        
+        /* Card Styling (Meniru Gambar) */
         .card-custom {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            background: white; border: none; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 24px; padding: 20px;
         }
-        .card-custom:hover { transform: translateY(-5px); }
-        .icon-box {
-            width: 50px; height: 50px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: white;
-        }
-        .navbar-custom {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .card-value { font-size: 2rem; font-weight: 800; }
+        .card-unit { font-size: 1rem; color: #7f8c8d; font-weight: 600; }
+        .card-title-custom { font-size: 0.95rem; font-weight: 700; color: #7f8c8d; margin-bottom: 10px; }
+        
+        /* Aksen Border Kiri */
+        .border-blue { border-left: 5px solid #3498db; }
+        .border-orange { border-left: 5px solid #e67e22; }
+        
+        .text-blue { color: #3498db; }
+        .text-orange { color: #e67e22; }
+
+        /* Detail List */
+        .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f2f6; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: #7f8c8d; font-weight: 600; }
+        .detail-value { font-weight: 800; color: #2c3e50; }
+
+        /* Login Screen */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #2b3a4a; z-index: 9999; display: flex;
+            align-items: center; justify-content: center;
         }
     </style>
 </head>
@@ -56,116 +84,137 @@
 
     <!-- HALAMAN LOGIN -->
     <div id="login-screen">
-        <div class="login-card text-center">
-            <h3 class="fw-bold mb-4">PV Monitoring</h3>
-            <p class="text-muted mb-4">Silakan masuk dengan akun Anda</p>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                <label for="email">Alamat Email</label>
-            </div>
-            <div class="form-floating mb-4">
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                <label for="password">Kata Sandi</label>
-            </div>
-            <button id="btnLogin" class="btn btn-primary w-100 py-2 fw-bold" style="border-radius: 10px;">MASUK</button>
-            <p id="pesanError" class="text-danger mt-3" style="display:none;"></p>
+        <div class="card p-4" style="width: 100%; max-width: 350px; border-radius: 15px;">
+            <h4 class="text-center fw-bold mb-4">PV Monitoring</h4>
+            <div class="mb-3"><input type="email" id="email" class="form-control" placeholder="Email"></div>
+            <div class="mb-3"><input type="password" id="password" class="form-control" placeholder="Password"></div>
+            <button id="btnLogin" class="btn btn-primary w-100 fw-bold">MASUK</button>
+            <div id="pesanError" class="text-danger mt-2 text-center" style="display:none; font-size: 14px;"></div>
         </div>
     </div>
 
-    <!-- HALAMAN DASHBOARD (Awalnya Disembunyikan) -->
-    <div id="dashboard-screen" style="display: none;">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-custom mb-4 py-3">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="#"><i class="fa-solid fa-solar-panel text-primary me-2"></i> Smart PV Dashboard</a>
-                <button id="btnLogout" class="btn btn-outline-danger btn-sm fw-bold"><i class="fa-solid fa-right-from-bracket me-1"></i> Keluar</button>
+    <!-- DASHBOARD -->
+    <div id="wrapper" style="display: none;">
+        
+        <!-- SIDEBAR -->
+        <div id="sidebar">
+            <div class="sidebar-brand">
+                PANEL SURYA MULTIMODE
             </div>
-        </nav>
+            <div class="nav-item">
+                <a href="#" class="nav-link active"><i class="fa-solid fa-desktop"></i> Data Utama</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-chart-line"></i> Komparasi Grafik</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-cogs"></i> Sistem Mekanik</a>
+            </div>
+            
+            <div class="info-box">
+                <div class="mb-1"><i class="fa-regular fa-calendar"></i> <span id="tanggal">--/--/----</span></div>
+                <div class="mb-2"><i class="fa-regular fa-clock"></i> <span id="jam">--:--:--</span></div>
+                <div>Status: <span class="text-success fw-bold">Sistem Siap</span></div>
+                <button id="btnLogout" class="btn btn-sm btn-outline-light w-100 mt-3">Keluar</button>
+            </div>
+        </div>
 
-        <div class="container">
-            <!-- Kartu Statistik -->
-            <div class="row mb-4">
-                <div class="col-md-3 mb-3">
-                    <div class="card card-custom p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="text-muted mb-1 fs-6">Suhu Panel</p>
-                                <h3 class="fw-bold mb-0" id="suhu">0.0 °C</h3>
-                            </div>
-                            <div class="icon-box" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);"><i class="fa-solid fa-temperature-high"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card card-custom p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="text-muted mb-1 fs-6">Efisiensi</p>
-                                <h3 class="fw-bold mb-0" id="efisiensi">0.0 %</h3>
-                            </div>
-                            <div class="icon-box" style="background: linear-gradient(135deg, #11998e, #38ef7d);"><i class="fa-solid fa-percent"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card card-custom p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="text-muted mb-1 fs-6">Daya Keluar</p>
-                                <h3 class="fw-bold mb-0" id="daya">0.0 W</h3>
-                            </div>
-                            <div class="icon-box" style="background: linear-gradient(135deg, #36D1DC, #5B86E5);"><i class="fa-solid fa-bolt"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card card-custom p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="text-muted mb-1 fs-6">Status Pompa</p>
-                                <h4 class="fw-bold mb-0" id="pompa">-</h4>
-                            </div>
-                            <div class="icon-box bg-dark"><i class="fa-solid fa-power-off"></i></div>
-                        </div>
-                    </div>
-                </div>
+        <!-- MAIN CONTENT -->
+        <div id="page-content">
+            
+            <!-- Header & Tombol Excel -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold" style="color: #2c3e50;">Data Monitoring Utama</h3>
+                <button id="btnExcel" class="btn btn-success fw-bold px-4" style="border-radius: 8px;">
+                    <i class="fa-solid fa-file-excel me-2"></i> Download Excel
+                </button>
             </div>
 
-            <!-- Detail Kelistrikan (Tegangan & Arus & Lux) -->
-            <div class="row mb-4 text-center">
-                <div class="col-md-4">
-                    <div class="card card-custom p-2"><strong class="text-muted">Cahaya Matahari:</strong> <span id="lux" class="fs-5 fw-bold">0 Lux</span></div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom p-2"><strong class="text-muted">Tegangan (V):</strong> <span id="tegangan" class="fs-5 fw-bold">0.00 V</span></div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom p-2"><strong class="text-muted">Arus (I):</strong> <span id="arus" class="fs-5 fw-bold">0 mA</span></div>
-                </div>
-            </div>
-
-            <!-- Grafik Chart.js -->
+            <!-- Top Cards -->
             <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card card-custom p-3">
-                        <h5 class="fw-bold mb-3 text-center">Tren Suhu (°C)</h5>
-                        <canvas id="grafikSuhu"></canvas>
+                <div class="col-md-3">
+                    <div class="card-custom border-blue">
+                        <div class="card-title-custom"><i class="fa-solid fa-bolt text-blue me-1"></i> Daya Masuk (Matahari)</div>
+                        <div class="card-value text-blue"><span id="dayaMasuk">0.00</span> <span class="card-unit">W</span></div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card card-custom p-3">
-                        <h5 class="fw-bold mb-3 text-center">Tren Efisiensi (%)</h5>
-                        <canvas id="grafikEfisiensi"></canvas>
+                <div class="col-md-3">
+                    <div class="card-custom border-orange">
+                        <div class="card-title-custom"><i class="fa-solid fa-bolt text-orange me-1"></i> Daya Keluar (Panel)</div>
+                        <div class="card-value text-orange"><span id="dayaKeluar">0.00</span> <span class="card-unit">W</span></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom border-blue">
+                        <div class="card-title-custom"><i class="fa-solid fa-temperature-half text-blue me-1"></i> Suhu Panel</div>
+                        <div class="card-value text-blue"><span id="suhu">0.0</span> <span class="card-unit">°C</span></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom border-orange">
+                        <div class="card-title-custom"><i class="fa-solid fa-percent text-orange me-1"></i> Efisiensi PV</div>
+                        <div class="card-value text-orange"><span id="efisiensi">0.0</span> <span class="card-unit">%</span></div>
                     </div>
                 </div>
             </div>
+
+            <!-- Bottom Detail Cards -->
+            <div class="row">
+                <!-- Detail List -->
+                <div class="col-md-6">
+                    <div class="card-custom h-100">
+                        <h5 class="fw-bold mb-4" style="color: #3498db;"><i class="fa-solid fa-solar-panel me-2"></i>Detail Kelistrikan</h5>
+                        <div class="detail-row">
+                            <span class="detail-label">Tegangan Output</span>
+                            <span class="detail-value"><span id="tegangan">0.00</span> V</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Arus Output</span>
+                            <span class="detail-value"><span id="arus">0</span> mA</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Intensitas Cahaya</span>
+                            <span class="detail-value"><span id="lux">0</span> lx</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Status Pompa ESP32</span>
+                            <span class="detail-value text-danger" id="statusPompa">Mati</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kontrol Pompa Manual -->
+                <div class="col-md-6">
+                    <div class="card-custom h-100">
+                        <h5 class="fw-bold mb-4" style="color: #e67e22;"><i class="fa-solid fa-power-off me-2"></i>Kontrol Pompa (Manual/Auto)</h5>
+                        
+                        <div class="mb-3">
+                            <label class="detail-label mb-2">Mode Operasi:</label>
+                            <select id="modeOperasi" class="form-select border-2 shadow-none">
+                                <option value="Auto">Otomatis (Berdasarkan Suhu)</option>
+                                <option value="Manual">Manual (Kendalikan dari Web)</option>
+                            </select>
+                        </div>
+
+                        <div id="panelManual" style="opacity: 0.5; pointer-events: none; transition: 0.3s;">
+                            <label class="detail-label mb-2">Perintah Manual:</label>
+                            <div class="d-flex gap-2">
+                                <button id="btnPompaOn" class="btn btn-success flex-fill fw-bold py-2"><i class="fa-solid fa-tint me-1"></i> NYALAKAN</button>
+                                <button id="btnPompaOff" class="btn btn-danger flex-fill fw-bold py-2"><i class="fa-solid fa-ban me-1"></i> MATIKAN</button>
+                            </div>
+                            <small class="text-muted mt-2 d-block">*Tombol berfungsi jika mode diubah ke Manual.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- FIREBASE SDK V9 -->
+    <!-- FIREBASE SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
         // KONFIGURASI FIREBASE ANDA
@@ -183,101 +232,134 @@
         const db = getDatabase(app);
         const auth = getAuth(app);
 
-        // Referensi Elemen UI
-        const loginScreen = document.getElementById('login-screen');
-        const dashboardScreen = document.getElementById('dashboard-screen');
-        const btnLogin = document.getElementById('btnLogin');
-        const btnLogout = document.getElementById('btnLogout');
-        const pesanError = document.getElementById('pesanError');
-
-        // FUNGSI LOGIN
-        btnLogin.addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            btnLogin.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
-            
-            signInWithEmailAndPassword(auth, email, password)
-                .catch((error) => {
-                    pesanError.style.display = 'block';
-                    pesanError.innerText = "Gagal masuk: Periksa kembali email & kata sandi Anda.";
-                    btnLogin.innerHTML = 'MASUK';
-                });
+        // --- SISTEM LOGIN ---
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            signInWithEmailAndPassword(auth, e, p).catch(err => {
+                document.getElementById('pesanError').innerText = "Login Gagal. Cek email/password!";
+                document.getElementById('pesanError').style.display = 'block';
+            });
         });
 
-        // FUNGSI LOGOUT
-        btnLogout.addEventListener('click', () => {
-            signOut(auth);
-        });
+        document.getElementById('btnLogout').addEventListener('click', () => signOut(auth));
 
-        let unsubscribeDB = null; 
-
-        // DETEKSI STATUS LOGIN
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User berhasil login
-                loginScreen.style.display = 'none';
-                dashboardScreen.style.display = 'block';
-                btnLogin.innerHTML = 'MASUK'; 
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('wrapper').style.display = 'flex';
                 mulaiBacaData();
+                mulaiBacaKontrol();
             } else {
-                // User belum login / terlogout
-                loginScreen.style.display = 'flex';
-                dashboardScreen.style.display = 'none';
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                pesanError.style.display = 'none';
-                
-                if (unsubscribeDB) unsubscribeDB(); // Putuskan koneksi database
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('wrapper').style.display = 'none';
             }
         });
 
-        // KONFIGURASI GRAFIK
-        const batasDataGrafik = 20;
-        const ctxSuhu = document.getElementById('grafikSuhu').getContext('2d');
-        const chartSuhu = new Chart(ctxSuhu, {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'Suhu Panel', data: [], borderColor: '#ff416c', backgroundColor: 'rgba(255, 65, 108, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }] }
-        });
-        const ctxEf = document.getElementById('grafikEfisiensi').getContext('2d');
-        const chartEf = new Chart(ctxEf, {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'Efisiensi PV', data: [], borderColor: '#11998e', backgroundColor: 'rgba(17, 153, 142, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }] },
-            options: { scales: { y: { suggestedMin: 0, suggestedMax: 20 } } }
-        });
+        // --- JAM & TANGGAL (JS Local) ---
+        setInterval(() => {
+            const now = new Date();
+            const opsiTgl = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('tanggal').innerText = now.toLocaleDateString('id-ID', opsiTgl);
+            document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID', {hour12: false});
+        }, 1000);
 
-        // FUNGSI MEMBACA DATABASE REAL-TIME
+        // --- VARIABEL UNTUK SIMPAN DATA SEMENTARA (UNTUK EXCEL) ---
+        let currentData = {};
+
+        // --- BACA DATA SENSOR ---
         function mulaiBacaData() {
-            const rtdbRef = ref(db, 'Monitoring');
-            
-            unsubscribeDB = onValue(rtdbRef, (snapshot) => {
+            onValue(ref(db, 'Monitoring'), (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    // Update Angka
-                    document.getElementById('suhu').innerText = data.Suhu.toFixed(1) + " °C";
-                    document.getElementById('efisiensi').innerText = data.Efisiensi.toFixed(1) + " %";
-                    document.getElementById('daya').innerText = data.DayaKeluar.toFixed(1) + " W";
-                    document.getElementById('pompa').innerText = data.StatusPompa;
+                    currentData = data; // Simpan untuk Excel
                     
-                    // Update Info Tambahan
-                    document.getElementById('lux').innerText = Math.round(data.Lux) + " Lux";
-                    document.getElementById('tegangan').innerText = data.Tegangan.toFixed(2) + " V";
-                    document.getElementById('arus').innerText = Math.round(data.Arus) + " mA";
-
-                    // Update Grafik
-                    const waktu = new Date().toLocaleTimeString('id-ID', { hour12: false });
-                    chartSuhu.data.labels.push(waktu);
-                    chartSuhu.data.datasets[0].data.push(data.Suhu);
-                    chartEf.data.labels.push(waktu);
-                    chartEf.data.datasets[0].data.push(data.Efisiensi);
-
-                    if (chartSuhu.data.labels.length > batasDataGrafik) {
-                        chartSuhu.data.labels.shift(); chartSuhu.data.datasets[0].data.shift();
-                        chartEf.data.labels.shift(); chartEf.data.datasets[0].data.shift();
-                    }
-                    chartSuhu.update(); chartEf.update();
+                    document.getElementById('suhu').innerText = data.Suhu.toFixed(1);
+                    document.getElementById('efisiensi').innerText = data.Efisiensi.toFixed(1);
+                    document.getElementById('dayaKeluar').innerText = data.DayaKeluar.toFixed(2);
+                    
+                    // Hitung balik Daya Masuk dari Iradiasi (karena di ESP32 tidak dikirim Pin-nya)
+                    const dayaMasuk = (data.Lux / 116.0) * 0.1575; 
+                    document.getElementById('dayaMasuk').innerText = dayaMasuk.toFixed(2);
+                    
+                    document.getElementById('tegangan').innerText = data.Tegangan.toFixed(2);
+                    document.getElementById('arus').innerText = Math.round(data.Arus);
+                    document.getElementById('lux').innerText = Math.round(data.Lux);
+                    
+                    const pStatus = document.getElementById('statusPompa');
+                    pStatus.innerText = data.StatusPompa;
+                    pStatus.className = (data.StatusPompa === "Menyala") ? "detail-value text-success" : "detail-value text-danger";
                 }
             });
         }
+
+        // --- SISTEM KONTROL POMPA MANUAL ---
+        const modeOperasi = document.getElementById('modeOperasi');
+        const panelManual = document.getElementById('panelManual');
+        
+        // Baca status kontrol terakhir dari Firebase saat web dibuka
+        function mulaiBacaKontrol() {
+            onValue(ref(db, 'Kontrol'), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    modeOperasi.value = data.Mode || "Auto";
+                    aturTampilanPanelManual(modeOperasi.value);
+                }
+            });
+        }
+
+        modeOperasi.addEventListener('change', (e) => {
+            const mode = e.target.value;
+            set(ref(db, 'Kontrol/Mode'), mode); // Kirim ke Firebase
+            aturTampilanPanelManual(mode);
+        });
+
+        function aturTampilanPanelManual(mode) {
+            if (mode === "Manual") {
+                panelManual.style.opacity = "1";
+                panelManual.style.pointerEvents = "auto";
+            } else {
+                panelManual.style.opacity = "0.5";
+                panelManual.style.pointerEvents = "none";
+            }
+        }
+
+        document.getElementById('btnPompaOn').addEventListener('click', () => {
+            set(ref(db, 'Kontrol/Perintah'), "ON");
+            alert("Perintah ON dikirim!");
+        });
+
+        document.getElementById('btnPompaOff').addEventListener('click', () => {
+            set(ref(db, 'Kontrol/Perintah'), "OFF");
+            alert("Perintah OFF dikirim!");
+        });
+
+        // --- FITUR DOWNLOAD EXCEL (CSV) ---
+        document.getElementById('btnExcel').addEventListener('click', () => {
+            if(!currentData.Suhu) { alert("Data belum tersedia!"); return; }
+            
+            const now = new Date();
+            const tglStr = now.toLocaleDateString('id-ID');
+            const jamStr = now.toLocaleTimeString('id-ID');
+            const dMasuk = ((currentData.Lux / 116.0) * 0.1575).toFixed(2);
+
+            // Membuat Header CSV
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Tanggal,Waktu,Suhu (C),Lux,Tegangan (V),Arus (mA),Daya Masuk (W),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
+            
+            // Mengisi Baris Data
+            csvContent += `${tglStr},${jamStr},${currentData.Suhu},${currentData.Lux},${currentData.Tegangan},${currentData.Arus},${dMasuk},${currentData.DayaKeluar},${currentData.Efisiensi},${currentData.StatusPompa}\n`;
+            
+            // Proses Download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Data_Panel_Surya_" + jamStr.replace(/:/g,"-") + ".csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
     </script>
 </body>
 </html>
