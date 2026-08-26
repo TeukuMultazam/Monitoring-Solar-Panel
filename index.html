@@ -97,7 +97,7 @@
         .info-time-val { font-weight: 700; color: #ffffff; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
 
         /* Main Content Desktop */
-        #page-content { flex: 1; margin-left: 270px; padding: 40px 50px; }
+        #page-content { flex: 1; margin-left: 270px; padding: 40px 50px; width: calc(100% - 270px); }
         
         /* Kartu Mewah & Clean */
         .card-custom {
@@ -152,13 +152,13 @@
         .btn-action-trigger:active { transform: scale(0.97); }
 
         /* Grafik Wrapper */
-        .chart-wrapper { position: relative; height: 45vh; width: 100%; margin-top: 10px; }
+        .chart-wrapper { position: relative; height: 40vh; width: 100%; margin-top: 10px; }
 
         /* Login Screen */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         .login-card { border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
 
-        /* --- PENGATURAN KHUSUS HP (RESPONSIVE PORTRAIT) --- */
+        /* --- PENGATURAN RESPONSIF TOTAL UNTUK HP (PORTRAIT) --- */
         @media (max-width: 991px) {
             #sidebar {
                 width: 100%;
@@ -171,16 +171,19 @@
             }
             #page-content {
                 margin-left: 0;
-                padding: 20px 15px;
+                width: 100%;
+                padding: 16px;
             }
             .sidebar-brand {
-                padding: 20px;
+                padding: 18px;
+                font-size: 1rem;
             }
             .nav-list {
                 display: flex;
                 overflow-x: auto;
-                padding: 10px;
+                padding: 10px 12px;
                 gap: 8px;
+                white-space: nowrap;
             }
             .nav-item {
                 margin-bottom: 0;
@@ -188,16 +191,28 @@
             }
             .nav-link {
                 padding: 10px 14px;
-                font-size: 0.88rem;
+                font-size: 0.85rem;
             }
             .info-box {
-                display: none; /* Sembunyikan jam sidebar di HP agar tidak terlalu panjang ke bawah */
+                display: none; /* Sembunyikan jam sidebar di HP agar lebih ringkas */
             }
             .control-container {
                 padding: 20px;
             }
             .metric-value {
                 font-size: 2rem;
+            }
+            .card-custom {
+                padding: 18px;
+                margin-bottom: 16px;
+            }
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .setting-value {
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -254,21 +269,21 @@
         <!-- PAGE CONTENT -->
         <div id="page-content">
             
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 mb-md-5">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
-                    <h2 class="fw-bold m-0 text-dark fs-3 fs-md-2" id="halaman-judul">Data Monitoring Saat Ini</h2>
+                    <h2 class="fw-bold m-0 text-dark fs-4 fs-md-3" id="halaman-judul">Data Monitoring Saat Ini</h2>
                     <p class="text-muted mt-1 mb-0 small">Sistem Pemantauan Performa & Pendingin Panel Surya</p>
                 </div>
-                <button id="btnExcel" class="btn btn-primary fw-bold px-4 py-2" style="border-radius: 10px; background: #0f172a; border: none; box-shadow: 0 4px 10px rgba(15,23,42,0.2);">
+                <button id="btnExcel" class="btn btn-primary fw-bold px-3 py-2 w-100 w-md-auto" style="border-radius: 10px; background: #0f172a; border: none; box-shadow: 0 4px 10px rgba(15,23,42,0.2);">
                     <i class="fa-solid fa-file-excel me-2"></i> Unduh Laporan (.csv)
                 </button>
             </div>
 
             <!-- SECTION 1: DASHBOARD UTAMA -->
             <div id="section-dashboard" class="content-section">
-                <div class="row g-3 g-md-4 mb-4">
+                <div class="row g-3 mb-4">
                     <!-- Cards -->
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
                             <div class="metric-header">
                                 <span class="metric-title">DAYA MASUK (PIN)</span>
@@ -277,7 +292,7 @@
                             <div class="metric-value"><span id="dayaMasuk">0.00</span><span class="metric-unit">W</span></div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
                             <div class="metric-header">
                                 <span class="metric-title">DAYA KELUAR (POUT)</span>
@@ -286,7 +301,7 @@
                             <div class="metric-value"><span id="dayaKeluar">0.00</span><span class="metric-unit">W</span></div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
                             <div class="metric-header">
                                 <span class="metric-title">SUHU PANEL</span>
@@ -295,7 +310,7 @@
                             <div class="metric-value"><span id="suhu">0.0</span><span class="metric-unit">°C</span></div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
                             <div class="metric-header">
                                 <span class="metric-title">EFISIENSI PV</span>
@@ -306,20 +321,20 @@
                     </div>
                 </div>
 
-                <div class="row g-3 g-md-4">
-                    <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-lg-6 col-12">
                         <div class="card-custom h-100">
-                            <h5 class="fw-bold mb-4 d-flex align-items-center fs-5" style="color: #2563eb;"><i class="fa-solid fa-bolt-lightning me-3"></i> Parameter Elektrikal Output</h5>
+                            <h5 class="fw-bold mb-3 d-flex align-items-center fs-6" style="color: #2563eb;"><i class="fa-solid fa-bolt-lightning me-2"></i> Parameter Elektrikal Output</h5>
                             <div class="detail-item"><span class="detail-name">Tegangan Operasi (V)</span><span class="detail-val"><span id="tegangan">0.00</span> V</span></div>
                             <div class="detail-item"><span class="detail-name">Arus Operasi (I)</span><span class="detail-val"><span id="arus">0</span> mA</span></div>
-                            <div class="detail-item"><span class="detail-name">Daya Listrik Aktual</span><span class="detail-val text-primary fs-5"><span id="dayaKeluar2">0.00</span> W</span></div>
+                            <div class="detail-item"><span class="detail-name">Daya Listrik Aktual</span><span class="detail-val text-primary"><span id="dayaKeluar2">0.00</span> W</span></div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-12">
                         <div class="card-custom h-100">
-                            <h5 class="fw-bold mb-4 d-flex align-items-center fs-5" style="color: #d97706;"><i class="fa-solid fa-cloud-sun me-3"></i> Parameter Lingkungan & Aktuator</h5>
+                            <h5 class="fw-bold mb-3 d-flex align-items-center fs-6" style="color: #d97706;"><i class="fa-solid fa-cloud-sun me-2"></i> Parameter Lingkungan & Aktuator</h5>
                             <div class="detail-item"><span class="detail-name">Intensitas Radiasi (Lux)</span><span class="detail-val"><span id="lux">0</span> lx</span></div>
-                            <div class="detail-item"><span class="detail-name">Suhu Permukaan PV</span><span class="detail-val text-danger fs-5"><span id="suhu2">0.0</span> °C</span></div>
+                            <div class="detail-item"><span class="detail-name">Suhu Permukaan PV</span><span class="detail-val text-danger"><span id="suhu2">0.0</span> °C</span></div>
                             <div class="detail-item"><span class="detail-name">Status Pompa Sprayer</span><span class="detail-val" id="statusPompa">-</span></div>
                         </div>
                     </div>
@@ -328,20 +343,20 @@
 
             <!-- SECTION 2: GRAFIK -->
             <div id="section-grafik" class="content-section" style="display: none;">
-                <div class="row g-4">
+                <div class="row g-3">
                     <div class="col-12">
-                        <div class="card-custom pb-4">
-                            <h5 class="fw-bold mb-1 text-dark">Suhu (°C)</h5>
-                            <p class="text-muted small mb-4">Pemantauan suhu permukaan panel secara real-time</p>
+                        <div class="card-custom pb-3">
+                            <h6 class="fw-bold mb-1 text-dark">Suhu (°C)</h6>
+                            <p class="text-muted small mb-3">Pemantauan suhu permukaan panel secara real-time</p>
                             <div class="chart-wrapper">
                                 <canvas id="grafikSuhu"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card-custom pb-4">
-                            <h5 class="fw-bold mb-1 text-dark">Efisiensi (%)</h5>
-                            <p class="text-muted small mb-4">Performa konversi daya panel secara real-time</p>
+                        <div class="card-custom pb-3">
+                            <h6 class="fw-bold mb-1 text-dark">Efisiensi (%)</h6>
+                            <p class="text-muted small mb-3">Performa konversi daya panel secara real-time</p>
                             <div class="chart-wrapper">
                                 <canvas id="grafikEfisiensi"></canvas>
                             </div>
@@ -352,12 +367,12 @@
 
             <!-- SECTION 3: KONTROL -->
             <div id="section-kontrol" class="content-section" style="display: none;">
-                <div class="control-container">
+                <div class="control-container p-3 p-md-5">
                     <div class="mb-3 d-inline-block p-3 rounded-circle" style="background: #ecfdf5;">
-                        <i class="fa-solid fa-robot robot-icon m-0" style="font-size: 3rem;"></i>
+                        <i class="fa-solid fa-robot robot-icon m-0" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h2 class="control-title fs-3">Sistem Siap (Otomatis)</h2>
-                    <p class="control-desc small">Sistem memantau suhu 24 jam. Menyemprotkan air selama 5 detik lalu jeda mendingin selama 2 menit jika suhu mencapai batas. Anda dapat memicu semprotan manual kapan saja.</p>
+                    <h3 class="control-title fs-4">Sistem Siap (Otomatis)</h3>
+                    <p class="control-desc small mb-4">Sistem memantau suhu 24 jam. Menyemprotkan air selama 5 detik lalu jeda mendingin selama 2 menit jika suhu mencapai batas. Anda dapat memicu semprotan manual kapan saja.</p>
                     
                     <div class="setting-row">
                         <div class="setting-label small"><i class="fa-solid fa-temperature-arrow-up"></i> Syarat Otomatis Aktif</div>
@@ -376,8 +391,8 @@
                         <div class="setting-value small" id="labelStatusMesin"><span class="text-secondary">Memuat...</span></div>
                     </div>
 
-                    <div class="action-buttons-wrapper mt-4">
-                        <button id="btnTriggerSemprot" class="btn-action-trigger fs-6">
+                    <div class="action-buttons-wrapper mt-3">
+                        <button id="btnTriggerSemprot" class="btn-action-trigger fs-6 py-3">
                             <i class="fa-solid fa-shower me-2"></i> SEMPROT MANUAL SEKARANG
                         </button>
                     </div>
@@ -459,20 +474,20 @@
                 x: { grid: { display: false } },
                 y: { grid: { color: '#f1f5f9' }, beginAtZero: false }
             },
-            elements: { point: { radius: 3, hoverRadius: 6 } }
+            elements: { point: { radius: 2, hoverRadius: 5 } }
         };
 
         const ctxSuhu = document.getElementById('grafikSuhu').getContext('2d');
         const chartSuhu = new Chart(ctxSuhu, { 
             type: 'line', 
-            data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 3, fill: true, tension: 0.4 }] }, 
+            data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, 
             options: chartOptions
         });
         
         const ctxEf = document.getElementById('grafikEfisiensi').getContext('2d');
         const chartEf = new Chart(ctxEf, { 
             type: 'line', 
-            data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 3, fill: true, tension: 0.4 }] }, 
+            data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, 
             options: chartOptions
         });
 
@@ -494,14 +509,14 @@
                     const labelMesin = document.getElementById('labelStatusMesin');
 
                     if(data.StatusPompa === "Menyemprot") {
-                        pStatus.innerHTML = '<span class="text-primary fw-bold"><i class="fa-solid fa-droplet me-2"></i> Menyemprot (ON)</span>';
-                        labelMesin.innerHTML = '<span class="text-primary fw-bold"><i class="fa-solid fa-spinner fa-spin me-2"></i> Sedang Menyemprot (5 Detik)</span>';
+                        pStatus.innerHTML = '<span class="text-primary fw-bold"><i class="fa-solid fa-droplet me-1"></i> Menyemprot (ON)</span>';
+                        labelMesin.innerHTML = '<span class="text-primary fw-bold"><i class="fa-solid fa-spinner fa-spin me-1"></i> Sedang Menyemprot (5 Detik)</span>';
                     } else if (data.StatusPompa === "Jeda Mendingin") {
-                        pStatus.innerHTML = '<span class="text-warning fw-bold"><i class="fa-solid fa-hourglass-half me-2"></i> Jeda Mendingin</span>';
-                        labelMesin.innerHTML = '<span class="text-warning fw-bold"><i class="fa-regular fa-clock me-2"></i> Fase Mendingin (Siklus 2 Menit)</span>';
+                        pStatus.innerHTML = '<span class="text-warning fw-bold"><i class="fa-solid fa-hourglass-half me-1"></i> Jeda Mendingin</span>';
+                        labelMesin.innerHTML = '<span class="text-warning fw-bold"><i class="fa-regular fa-clock me-1"></i> Fase Mendingin (Siklus 2 Menit)</span>';
                     } else {
-                        pStatus.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-stop me-2"></i> Standby (OFF)</span>';
-                        labelMesin.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle me-2"></i> Standby (Memantau Suhu)</span>';
+                        pStatus.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-stop me-1"></i> Standby (OFF)</span>';
+                        labelMesin.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle me-1"></i> Standby (Memantau Suhu)</span>';
                     }
 
                     const waktu = new Date().toLocaleTimeString('id-ID', { hour12: false });
@@ -520,13 +535,13 @@
         // --- TOMBOL TRIGGER MANUAL ---
         document.getElementById('btnTriggerSemprot').addEventListener('click', function() {
             const btn = this;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Mengirim Sinyal...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Mengirim Sinyal...';
             btn.style.background = "#64748b";
             
             set(ref(db, 'Kontrol/Trigger'), "ON");
             
             setTimeout(() => { 
-                btn.innerHTML = '<i class="fa-solid fa-check me-2"></i> Sinyal Diterima'; 
+                btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Sinyal Diterima'; 
                 btn.style.background = "#10b981";
                 
                 setTimeout(() => {
