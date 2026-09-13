@@ -26,7 +26,6 @@
             --text-muted: #64748b;
             --card-border: rgba(226, 232, 240, 0.8);
         }
-
         body { 
             font-family: var(--font-body); 
             background-color: var(--bg-main); 
@@ -34,7 +33,6 @@
             overflow-x: hidden; 
             -webkit-font-smoothing: antialiased;
         }
-        
         h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: -0.02em; }
 
         /* Layout */
@@ -42,85 +40,50 @@
         
         /* Sidebar Desktop */
         #sidebar { 
-            width: 270px; 
-            background-color: var(--sidebar-bg); 
-            color: #ffffff; 
-            min-height: 100vh; 
-            position: fixed; 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 100;
-            box-shadow: 4px 0 24px rgba(0,0,0,0.04);
-            transition: all 0.3s ease;
+            width: 270px; background-color: var(--sidebar-bg); color: #ffffff; 
+            min-height: 100vh; position: fixed; display: flex; flex-direction: column; 
+            z-index: 100; box-shadow: 4px 0 24px rgba(0,0,0,0.04); transition: all 0.3s ease;
         }
         .sidebar-brand { 
-            padding: 35px 24px 25px; 
-            font-weight: 800; 
-            font-size: 1.15rem; 
-            letter-spacing: 0.5px; 
-            text-align: center; 
-            color: #ffffff;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 35px 24px 25px; font-weight: 800; font-size: 1.15rem; 
+            letter-spacing: 0.5px; text-align: center; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .sidebar-brand i { color: #38bdf8; margin-right: 8px; }
         
         .nav-list { padding: 20px 16px; list-style: none; margin: 0; }
         .nav-item { margin-bottom: 6px; }
         .nav-link { 
-            color: var(--sidebar-text); 
-            text-decoration: none; 
-            display: flex; 
-            align-items: center; 
-            gap: 14px;
-            padding: 14px 18px; 
-            border-radius: 10px; 
-            font-weight: 600; 
-            font-size: 0.95rem; 
-            transition: all 0.3s ease; 
-            cursor: pointer;
+            color: var(--sidebar-text); text-decoration: none; display: flex; align-items: center; 
+            gap: 14px; padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; 
+            transition: all 0.3s ease; cursor: pointer;
         }
         .nav-link:hover { color: #ffffff; background-color: rgba(255,255,255,0.03); }
         .nav-link.active { 
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: #ffffff; 
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; 
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
         }
         
         /* Box Waktu Sidebar */
         .info-box {
-            margin-top: auto; padding: 20px; 
-            background-color: rgba(255,255,255,0.03); 
-            margin: 20px 16px; 
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
+            margin-top: auto; padding: 20px; background-color: rgba(255,255,255,0.03); 
+            margin: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);
         }
         .info-time-val { font-weight: 700; color: #ffffff; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
 
         /* Main Content Desktop */
         #page-content { flex: 1; margin-left: 270px; padding: 40px 50px; width: calc(100% - 270px); }
         
-        /* Kartu Mewah & Clean */
         .card-custom {
-            background: #ffffff; 
-            border: 1px solid var(--card-border); 
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); 
-            margin-bottom: 24px; 
-            padding: 26px;
+            background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); margin-bottom: 24px; padding: 26px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        }
+        .card-custom:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); }
         
         /* DASHBOARD METRICS */
         .metric-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; }
         .metric-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; }
-        .metric-icon-box { 
-            width: 40px; height: 40px; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
-        }
+        .metric-icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
         .metric-value { font-family: var(--font-display); font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--text-primary); letter-spacing: -0.03em;}
         .metric-unit { font-size: 1rem; color: var(--text-muted); font-weight: 600; margin-left: 4px; }
         
@@ -129,7 +92,6 @@
         .detail-name { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
         .detail-val { font-weight: 800; font-variant-numeric: tabular-nums; font-size: 1.05rem; }
 
-        /* KONTROL INSTAN CONTAINER */
         .control-container { max-width: 650px; margin: 0 auto; background: white; border-radius: 20px; padding: 45px; box-shadow: 0 15px 40px rgba(0,0,0,0.03); text-align: center; border: 1px solid var(--card-border); }
         .robot-icon { font-size: 4.5rem; color: #10b981; margin-bottom: 20px; }
         .control-title { font-weight: 800; font-size: 2rem; color: #0f172a; margin-bottom: 12px; }
@@ -139,81 +101,24 @@
         .setting-label { font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 12px; font-size: 1.05rem; }
         .setting-value { font-weight: 700; color: #0f172a; font-size: 1.05rem; }
         
-        .action-buttons-wrapper { padding-top: 35px; margin-top: 15px; display: flex; justify-content: center; }
-        
         .btn-action-trigger { 
             padding: 18px 45px; border-radius: 12px; font-weight: 800; font-size: 1.15rem; 
             display: flex; align-items: center; gap: 12px; border: none; transition: all 0.3s ease;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-            width: 100%; justify-content: center; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); width: 100%; justify-content: center; letter-spacing: 0.5px;
         }
-        .btn-action-trigger:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4); }
-        .btn-action-trigger:active { transform: scale(0.97); }
-
-        /* Grafik Wrapper */
+        
         .chart-wrapper { position: relative; height: 40vh; width: 100%; margin-top: 10px; }
-
-        /* Login Screen */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .login-card { border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-
-        /* --- PENGATURAN RESPONSIF TOTAL UNTUK HP (PORTRAIT) --- */
+        
         @media (max-width: 991px) {
-            #sidebar {
-                width: 100%;
-                min-height: auto;
-                position: relative;
-                box-shadow: none;
-            }
-            #wrapper {
-                flex-direction: column;
-            }
-            #page-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 16px;
-            }
-            .sidebar-brand {
-                padding: 18px;
-                font-size: 1rem;
-            }
-            .nav-list {
-                display: flex;
-                overflow-x: auto;
-                padding: 10px 12px;
-                gap: 8px;
-                white-space: nowrap;
-            }
-            .nav-item {
-                margin-bottom: 0;
-                flex-shrink: 0;
-            }
-            .nav-link {
-                padding: 10px 14px;
-                font-size: 0.85rem;
-            }
-            .info-box {
-                display: none; /* Sembunyikan jam sidebar di HP agar lebih ringkas */
-            }
-            .control-container {
-                padding: 20px;
-            }
-            .metric-value {
-                font-size: 2rem;
-            }
-            .card-custom {
-                padding: 18px;
-                margin-bottom: 16px;
-            }
-            .setting-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-            .setting-value {
-                font-size: 0.95rem;
-            }
+            #sidebar { width: 100%; min-height: auto; position: relative; box-shadow: none; }
+            #wrapper { flex-direction: column; }
+            #page-content { margin-left: 0; width: 100%; padding: 16px; }
+            .nav-list { display: flex; overflow-x: auto; padding: 10px 12px; gap: 8px; white-space: nowrap; }
+            .nav-item { margin-bottom: 0; flex-shrink: 0; }
+            .info-box { display: none; }
+            .metric-value { font-size: 2rem; }
+            .setting-row { flex-direction: column; align-items: flex-start; gap: 5px; }
         }
     </style>
 </head>
@@ -221,7 +126,7 @@
 
     <!-- HALAMAN LOGIN -->
     <div id="login-screen">
-        <div class="card p-4 p-md-5 border-0 login-card" style="width: 100%; max-width: 420px;">
+        <div class="card p-4 p-md-5 border-0 login-card" style="width: 100%; max-width: 420px; border-radius: 24px;">
             <div class="text-center mb-4">
                 <i class="fa-solid fa-solar-panel fs-1 text-primary mb-3"></i>
                 <h3 class="fw-bold text-dark m-0">SMART PV COOLING</h3>
@@ -253,7 +158,7 @@
             </ul>
             
             <div class="info-box">
-                <div class="text-white-50 small fw-bold mb-3 text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">Waktu Sistem</div>
+                <div class="text-white-50 small fw-bold mb-3 text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">Waktu Sistem (RTC)</div>
                 <div class="d-flex align-items-center justify-content-between mb-2 text-white-50">
                     <span><i class="fa-regular fa-calendar me-2"></i>Tgl</span>
                     <span id="tanggal" class="info-time-val">--/--/----</span>
@@ -282,7 +187,6 @@
             <!-- SECTION 1: DASHBOARD UTAMA -->
             <div id="section-dashboard" class="content-section">
                 <div class="row g-3 mb-4">
-                    <!-- Cards -->
                     <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
                             <div class="metric-header">
@@ -372,7 +276,7 @@
                         <i class="fa-solid fa-robot robot-icon m-0" style="font-size: 2.5rem;"></i>
                     </div>
                     <h3 class="control-title fs-4">Sistem Siap (Otomatis)</h3>
-                    <p class="control-desc small mb-4">Sistem memantau suhu 24 jam. Menyemprotkan air selama 5 detik lalu jeda mendingin selama 2 menit jika suhu mencapai batas. Anda dapat memicu semprotan manual kapan saja.</p>
+                    <p class="control-desc small mb-4">Sistem memantau suhu 24 jam. Menyemprotkan air selama 5 detik lalu jeda mendingin selama 2 menit jika suhu mencapai batas.</p>
                     
                     <div class="setting-row">
                         <div class="setting-label small"><i class="fa-solid fa-temperature-arrow-up"></i> Syarat Otomatis Aktif</div>
@@ -422,7 +326,6 @@
         const db = getDatabase(app);
         const auth = getAuth(app);
 
-        // --- NAVIGASI TAB ---
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.content-section');
         const headerJudul = document.getElementById('halaman-judul');
@@ -444,7 +347,6 @@
             });
         });
 
-        // --- SISTEM LOGIN ---
         document.getElementById('btnLogin').addEventListener('click', () => {
             signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value)
                 .catch(() => { document.getElementById('pesanError').style.display = 'block'; document.getElementById('pesanError').innerText = 'Email/Password Salah!'; });
@@ -456,54 +358,48 @@
             else { document.getElementById('login-screen').style.display = 'flex'; document.getElementById('wrapper').style.display = 'none'; }
         });
 
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('tanggal').innerText = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
-            document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID', {hour12: false});
-        }, 1000);
+        // HAPUS setInterval jam PC di sini agar web patuh pada RTC ESP32
 
-        // --- CHART.JS ---
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = "#64748b";
         
         const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false, 
+            responsive: true, maintainAspectRatio: false, 
             plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: { grid: { color: '#f1f5f9' }, beginAtZero: false }
-            },
+            scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, beginAtZero: false } },
             elements: { point: { radius: 2, hoverRadius: 5 } }
         };
 
         const ctxSuhu = document.getElementById('grafikSuhu').getContext('2d');
         const chartSuhu = new Chart(ctxSuhu, { 
-            type: 'line', 
-            data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, 
-            options: chartOptions
+            type: 'line', data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions
         });
         
         const ctxEf = document.getElementById('grafikEfisiensi').getContext('2d');
         const chartEf = new Chart(ctxEf, { 
-            type: 'line', 
-            data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, 
-            options: chartOptions
+            type: 'line', data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions
         });
 
-        // --- BACA DATA SENSOR ---
         let currentData = {};
         function mulaiBacaData() {
             onValue(ref(db, 'Monitoring'), (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
                     currentData = data;
-                    document.getElementById('suhu').innerText = data.Suhu.toFixed(1); document.getElementById('suhu2').innerText = data.Suhu.toFixed(1);
-                    document.getElementById('efisiensi').innerText = data.Efisiensi.toFixed(1); document.getElementById('dayaKeluar').innerText = data.DayaKeluar.toFixed(2);
-                    document.getElementById('dayaKeluar2').innerText = data.DayaKeluar.toFixed(2);
-                    document.getElementById('dayaMasuk').innerText = ((data.Lux / 116.0) * 0.1575).toFixed(2);
-                    document.getElementById('tegangan').innerText = data.Tegangan.toFixed(2); document.getElementById('arus').innerText = Math.round(data.Arus);
-                    document.getElementById('lux').innerText = Math.round(data.Lux);
+                    
+                    // JAM TER-UPDATE DARI RTC ESP32
+                    document.getElementById('tanggal').innerText = data.Tanggal || '--/--/----';
+                    document.getElementById('jam').innerText = data.Waktu || '--:--:--';
+                    
+                    document.getElementById('suhu').innerText = (data.Suhu || 0).toFixed(1); 
+                    document.getElementById('suhu2').innerText = (data.Suhu || 0).toFixed(1);
+                    document.getElementById('efisiensi').innerText = (data.Efisiensi || 0).toFixed(1); 
+                    document.getElementById('dayaKeluar').innerText = (data.DayaKeluar || 0).toFixed(2);
+                    document.getElementById('dayaKeluar2').innerText = (data.DayaKeluar || 0).toFixed(2);
+                    document.getElementById('dayaMasuk').innerText = (((data.Lux || 0) / 116.0) * 0.1575).toFixed(2);
+                    document.getElementById('tegangan').innerText = (data.Tegangan || 0).toFixed(2); 
+                    document.getElementById('arus').innerText = Math.round(data.Arus || 0);
+                    document.getElementById('lux').innerText = Math.round(data.Lux || 0);
                     
                     const pStatus = document.getElementById('statusPompa');
                     const labelMesin = document.getElementById('labelStatusMesin');
@@ -519,9 +415,10 @@
                         labelMesin.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle me-1"></i> Standby (Memantau Suhu)</span>';
                     }
 
-                    const waktu = new Date().toLocaleTimeString('id-ID', { hour12: false });
-                    chartSuhu.data.labels.push(waktu); chartSuhu.data.datasets[0].data.push(data.Suhu);
-                    chartEf.data.labels.push(waktu); chartEf.data.datasets[0].data.push(data.Efisiensi);
+                    // TAMPILKAN GRAFIK BERDASARKAN JAM DARI ALAT (Bukan HP)
+                    const waktuGrafik = data.Waktu || new Date().toLocaleTimeString('id-ID', { hour12: false });
+                    chartSuhu.data.labels.push(waktuGrafik); chartSuhu.data.datasets[0].data.push(data.Suhu || 0);
+                    chartEf.data.labels.push(waktuGrafik); chartEf.data.datasets[0].data.push(data.Efisiensi || 0);
                     
                     if (chartSuhu.data.labels.length > 20) { 
                         chartSuhu.data.labels.shift(); chartSuhu.data.datasets[0].data.shift(); 
@@ -532,18 +429,15 @@
             });
         }
 
-        // --- TOMBOL TRIGGER MANUAL ---
         document.getElementById('btnTriggerSemprot').addEventListener('click', function() {
             const btn = this;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Mengirim Sinyal...';
             btn.style.background = "#64748b";
-            
             set(ref(db, 'Kontrol/Trigger'), "ON");
             
             setTimeout(() => { 
                 btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Sinyal Diterima'; 
                 btn.style.background = "#10b981";
-                
                 setTimeout(() => {
                     btn.innerHTML = '<i class="fa-solid fa-shower me-2"></i> SEMPROT MANUAL SEKARANG';
                     btn.style.background = "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)";
@@ -551,14 +445,15 @@
             }, 800);
         });
 
-        // --- EXCEL ---
         document.getElementById('btnExcel').addEventListener('click', () => {
             if(!currentData.Suhu) return;
-            const jamStr = new Date().toLocaleTimeString('id-ID');
+            
+            // EXCEL SEKARANG MENGGUNAKAN JAM & TGL ASLI DARI RTC
             let csv = "data:text/csv;charset=utf-8,Tanggal,Waktu,Suhu (C),Lux,Tegangan (V),Arus (mA),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
-            csv += `${new Date().toLocaleDateString('id-ID')},${jamStr},${currentData.Suhu},${currentData.Lux},${currentData.Tegangan},${currentData.Arus},${currentData.DayaKeluar},${currentData.Efisiensi},${currentData.StatusPompa}\n`;
+            csv += `${currentData.Tanggal},${currentData.Waktu},${currentData.Suhu},${currentData.Lux},${currentData.Tegangan},${currentData.Arus},${currentData.DayaKeluar},${currentData.Efisiensi},${currentData.StatusPompa}\n`;
+            
             const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv));
-            link.setAttribute("download", `Data_PV_${jamStr.replace(/:/g,"-")}.csv`);
+            link.setAttribute("download", `Data_PV_${currentData.Waktu.replace(/:/g,"-")}.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         });
     </script>
