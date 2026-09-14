@@ -389,7 +389,7 @@
             }, 800);
         });
 
-        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (20 MENIT SEKALI)
+        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (Pemisah Semicolon ; agar otomatis terpisah di Excel)
         document.getElementById('btnExcel').addEventListener('click', () => {
             const btn = document.getElementById('btnExcel');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Mengambil Data...';
@@ -397,7 +397,7 @@
             get(ref(db, 'Riwayat_Data')).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    let csv = "data:text/csv;charset=utf-8,Tanggal,Waktu,Suhu (C),Lux,Daya Masuk (W),Tegangan (V),Arus (mA),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
+                    let csv = "data:text/csv;charset=utf-8,Tanggal;Waktu;Suhu (C);Lux;Daya Masuk (W);Tegangan (V);Arus (mA);Daya Keluar (W);Efisiensi (%);Status Pompa\n";
                     
                     for (let key in data) {
                         let row = data[key];
@@ -409,7 +409,7 @@
                         let dayaKeluar = row.DayaKeluar !== undefined ? row.DayaKeluar : 0;
                         let efisiensi = row.Efisiensi !== undefined ? row.Efisiensi : 0;
                         
-                        csv += `${row.Tanggal},${row.Waktu},${suhu},${lux},${dayaMasuk},${tegangan},${arus},${dayaKeluar},${efisiensi},${row.StatusPompa}\n`;
+                        csv += `${row.Tanggal};${row.Waktu};${suhu};${lux};${dayaMasuk};${tegangan};${arus};${dayaKeluar};${efisiensi};${row.StatusPompa}\n`;
                     }
                     
                     const link = document.createElement("a"); 
