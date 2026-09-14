@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart PV Cooling</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -26,90 +22,41 @@
             --text-muted: #64748b;
             --card-border: rgba(226, 232, 240, 0.8);
         }
-        body { 
-            font-family: var(--font-body); 
-            background-color: var(--bg-main); 
-            color: var(--text-primary); 
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased;
-        }
+        body { font-family: var(--font-body); background-color: var(--bg-main); color: var(--text-primary); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: -0.02em; }
-
-        /* Layout */
         #wrapper { display: flex; width: 100%; min-height: 100vh; }
-        
-        /* Sidebar Desktop */
-        #sidebar { 
-            width: 270px; background-color: var(--sidebar-bg); color: #ffffff; 
-            min-height: 100vh; position: fixed; display: flex; flex-direction: column; 
-            z-index: 100; box-shadow: 4px 0 24px rgba(0,0,0,0.04); transition: all 0.3s ease;
-        }
-        .sidebar-brand { 
-            padding: 35px 24px 25px; font-weight: 800; font-size: 1.15rem; 
-            letter-spacing: 0.5px; text-align: center; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
+        #sidebar { width: 270px; background-color: var(--sidebar-bg); color: #ffffff; min-height: 100vh; position: fixed; display: flex; flex-direction: column; z-index: 100; box-shadow: 4px 0 24px rgba(0,0,0,0.04); transition: all 0.3s ease; }
+        .sidebar-brand { padding: 35px 24px 25px; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-align: center; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.06); }
         .sidebar-brand i { color: #38bdf8; margin-right: 8px; }
-        
         .nav-list { padding: 20px 16px; list-style: none; margin: 0; }
         .nav-item { margin-bottom: 6px; }
-        .nav-link { 
-            color: var(--sidebar-text); text-decoration: none; display: flex; align-items: center; 
-            gap: 14px; padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; 
-            transition: all 0.3s ease; cursor: pointer;
-        }
+        .nav-link { color: var(--sidebar-text); text-decoration: none; display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; cursor: pointer; }
         .nav-link:hover { color: #ffffff; background-color: rgba(255,255,255,0.03); }
-        .nav-link.active { 
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; 
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
-        }
-        
-        /* Box Waktu Sidebar */
-        .info-box {
-            margin-top: auto; padding: 20px; background-color: rgba(255,255,255,0.03); 
-            margin: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);
-        }
+        .nav-link.active { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35); }
+        .info-box { margin-top: auto; padding: 20px; background-color: rgba(255,255,255,0.03); margin: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
         .info-time-val { font-weight: 700; color: #ffffff; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
-
-        /* Main Content Desktop */
         #page-content { flex: 1; margin-left: 270px; padding: 40px 50px; width: calc(100% - 270px); }
-        
-        .card-custom {
-            background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); margin-bottom: 24px; padding: 26px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+        .card-custom { background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); margin-bottom: 24px; padding: 26px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .card-custom:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); }
-        
-        /* DASHBOARD METRICS */
         .metric-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; }
         .metric-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; }
         .metric-icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
         .metric-value { font-family: var(--font-display); font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--text-primary); letter-spacing: -0.03em;}
         .metric-unit { font-size: 1rem; color: var(--text-muted); font-weight: 600; margin-left: 4px; }
-        
         .detail-item { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
         .detail-item:last-child { border-bottom: none; padding-bottom: 0; }
         .detail-name { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
         .detail-val { font-weight: 800; font-variant-numeric: tabular-nums; font-size: 1.05rem; }
-
         .control-container { max-width: 650px; margin: 0 auto; background: white; border-radius: 20px; padding: 45px; box-shadow: 0 15px 40px rgba(0,0,0,0.03); text-align: center; border: 1px solid var(--card-border); }
         .robot-icon { font-size: 4.5rem; color: #10b981; margin-bottom: 20px; }
         .control-title { font-weight: 800; font-size: 2rem; color: #0f172a; margin-bottom: 12px; }
         .control-desc { color: #64748b; font-size: 1.05rem; margin-bottom: 35px; line-height: 1.6; }
-        
         .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #f1f5f9; }
         .setting-label { font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 12px; font-size: 1.05rem; }
         .setting-value { font-weight: 700; color: #0f172a; font-size: 1.05rem; }
-        
-        .btn-action-trigger { 
-            padding: 18px 45px; border-radius: 12px; font-weight: 800; font-size: 1.15rem; 
-            display: flex; align-items: center; gap: 12px; border: none; transition: all 0.3s ease;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); width: 100%; justify-content: center; letter-spacing: 0.5px;
-        }
-        
+        .btn-action-trigger { padding: 18px 45px; border-radius: 12px; font-weight: 800; font-size: 1.15rem; display: flex; align-items: center; gap: 12px; border: none; transition: all 0.3s ease; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); width: 100%; justify-content: center; letter-spacing: 0.5px; }
         .chart-wrapper { position: relative; height: 40vh; width: 100%; margin-top: 10px; }
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        
         @media (max-width: 991px) {
             #sidebar { width: 100%; min-height: auto; position: relative; box-shadow: none; }
             #wrapper { flex-direction: column; }
@@ -123,8 +70,6 @@
     </style>
 </head>
 <body>
-
-    <!-- HALAMAN LOGIN -->
     <div id="login-screen">
         <div class="card p-4 p-md-5 border-0 login-card" style="width: 100%; max-width: 420px; border-radius: 24px;">
             <div class="text-center mb-4">
@@ -144,19 +89,14 @@
         </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
     <div id="wrapper" style="display: none;">
-        
-        <!-- SIDEBAR -->
         <div id="sidebar">
             <div class="sidebar-brand"><i class="fa-solid fa-solar-panel"></i> SMART PV COOLING</div>
-            
             <ul class="nav-list">
                 <li class="nav-item"><a class="nav-link active" data-target="dashboard"><i class="fa-solid fa-desktop"></i> Data Utama</a></li>
                 <li class="nav-item"><a class="nav-link" data-target="grafik"><i class="fa-solid fa-chart-line"></i> Grafik Riwayat</a></li>
                 <li class="nav-item"><a class="nav-link" data-target="kontrol"><i class="fa-solid fa-cogs"></i> Sistem Kendali</a></li>
             </ul>
-            
             <div class="info-box">
                 <div class="text-white-50 small fw-bold mb-3 text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">Waktu Sistem (RTC)</div>
                 <div class="d-flex align-items-center justify-content-between mb-2 text-white-50">
@@ -171,9 +111,7 @@
             </div>
         </div>
 
-        <!-- PAGE CONTENT -->
         <div id="page-content">
-            
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
                     <h2 class="fw-bold m-0 text-dark fs-4 fs-md-3" id="halaman-judul">Data Monitoring Saat Ini</h2>
@@ -186,6 +124,56 @@
 
             <!-- SECTION 1: DASHBOARD UTAMA -->
             <div id="section-dashboard" class="content-section">
+                
+                <!-- SECTION KAMERA & KONTROL -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-8 col-12">
+                        <div class="card-custom h-100">
+                            <h5 class="fw-bold mb-3 d-flex align-items-center fs-6" style="color: #0f172a;">
+                                <i class="fa-solid fa-video me-2 text-danger"></i> Live Monitoring Kamera
+                            </h5>
+                            <div class="video-container" style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 4/3;">
+                                <img id="kamera-stream" src="http://172.20.10.3:81/stream" alt="Menunggu koneksi kamera..." style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <div class="card-custom h-100">
+                            <h5 class="fw-bold mb-4 d-flex align-items-center fs-6" style="color: #64748b;">
+                                <i class="fa-solid fa-sliders me-2"></i> Pengaturan Visual
+                            </h5>
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-muted d-flex justify-content-between">
+                                    <span>Kecerahan</span> <span id="val-bright">0</span>
+                                </label>
+                                <input type="range" class="form-range" min="-2" max="2" value="0" onchange="updateKamera('brightness', this.value); document.getElementById('val-bright').innerText=this.value;">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-muted d-flex justify-content-between">
+                                    <span>Kontras</span> <span id="val-contra">0</span>
+                                </label>
+                                <input type="range" class="form-range" min="-2" max="2" value="0" onchange="updateKamera('contrast', this.value); document.getElementById('val-contra').innerText=this.value;">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-muted">Resolusi Stream</label>
+                                <select class="form-select bg-light" style="border-radius: 8px;" onchange="updateKamera('framesize', this.value)">
+                                    <option value="8">Tinggi (XGA - Lambat)</option>
+                                    <option value="6" selected>Sedang (VGA - Stabil)</option>
+                                    <option value="4">Rendah (QVGA - Cepat)</option>
+                                </select>
+                            </div>
+                            <div class="d-flex gap-2 mt-auto pt-2">
+                                <button class="btn btn-outline-secondary w-100 btn-sm fw-bold" onclick="toggleKamera('vflip')" style="border-radius: 8px;">
+                                    <i class="fa-solid fa-arrows-up-down"></i> Putar Vertikal
+                                </button>
+                                <button class="btn btn-outline-secondary w-100 btn-sm fw-bold" onclick="toggleKamera('hmirror')" style="border-radius: 8px;">
+                                    <i class="fa-solid fa-arrows-left-right"></i> Cermin Horizontal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row g-3 mb-4">
                     <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
@@ -306,7 +294,6 @@
         </div>
     </div>
 
-    <!-- FIREBASE & LOGIKA APLIKASI -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
@@ -358,27 +345,14 @@
             else { document.getElementById('login-screen').style.display = 'flex'; document.getElementById('wrapper').style.display = 'none'; }
         });
 
-        // HAPUS setInterval jam PC di sini agar web patuh pada RTC ESP32
-
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = "#64748b";
         
-        const chartOptions = {
-            responsive: true, maintainAspectRatio: false, 
-            plugins: { legend: { display: false } },
-            scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, beginAtZero: false } },
-            elements: { point: { radius: 2, hoverRadius: 5 } }
-        };
-
+        const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, beginAtZero: false } }, elements: { point: { radius: 2, hoverRadius: 5 } } };
         const ctxSuhu = document.getElementById('grafikSuhu').getContext('2d');
-        const chartSuhu = new Chart(ctxSuhu, { 
-            type: 'line', data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions
-        });
-        
+        const chartSuhu = new Chart(ctxSuhu, { type: 'line', data: { labels: [], datasets: [{ label: 'Suhu', data: [], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions });
         const ctxEf = document.getElementById('grafikEfisiensi').getContext('2d');
-        const chartEf = new Chart(ctxEf, { 
-            type: 'line', data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions
-        });
+        const chartEf = new Chart(ctxEf, { type: 'line', data: { labels: [], datasets: [{ label: 'Efisiensi', data: [], borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.08)', borderWidth: 2.5, fill: true, tension: 0.4 }] }, options: chartOptions });
 
         let currentData = {};
         function mulaiBacaData() {
@@ -386,11 +360,8 @@
                 const data = snapshot.val();
                 if (data) {
                     currentData = data;
-                    
-                    // JAM TER-UPDATE DARI RTC ESP32
                     document.getElementById('tanggal').innerText = data.Tanggal || '--/--/----';
                     document.getElementById('jam').innerText = data.Waktu || '--:--:--';
-                    
                     document.getElementById('suhu').innerText = (data.Suhu || 0).toFixed(1); 
                     document.getElementById('suhu2').innerText = (data.Suhu || 0).toFixed(1);
                     document.getElementById('efisiensi').innerText = (data.Efisiensi || 0).toFixed(1); 
@@ -415,15 +386,10 @@
                         labelMesin.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle me-1"></i> Standby (Memantau Suhu)</span>';
                     }
 
-                    // TAMPILKAN GRAFIK BERDASARKAN JAM DARI ALAT (Bukan HP)
                     const waktuGrafik = data.Waktu || new Date().toLocaleTimeString('id-ID', { hour12: false });
                     chartSuhu.data.labels.push(waktuGrafik); chartSuhu.data.datasets[0].data.push(data.Suhu || 0);
                     chartEf.data.labels.push(waktuGrafik); chartEf.data.datasets[0].data.push(data.Efisiensi || 0);
-                    
-                    if (chartSuhu.data.labels.length > 20) { 
-                        chartSuhu.data.labels.shift(); chartSuhu.data.datasets[0].data.shift(); 
-                        chartEf.data.labels.shift(); chartEf.data.datasets[0].data.shift(); 
-                    }
+                    if (chartSuhu.data.labels.length > 20) { chartSuhu.data.labels.shift(); chartSuhu.data.datasets[0].data.shift(); chartEf.data.labels.shift(); chartEf.data.datasets[0].data.shift(); }
                     chartSuhu.update(); chartEf.update();
                 }
             });
@@ -434,28 +400,45 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Mengirim Sinyal...';
             btn.style.background = "#64748b";
             set(ref(db, 'Kontrol/Trigger'), "ON");
-            
             setTimeout(() => { 
                 btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Sinyal Diterima'; 
                 btn.style.background = "#10b981";
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fa-solid fa-shower me-2"></i> SEMPROT MANUAL SEKARANG';
-                    btn.style.background = "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)";
-                }, 2000);
+                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-shower me-2"></i> SEMPROT MANUAL SEKARANG'; btn.style.background = "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"; }, 2000);
             }, 800);
         });
 
         document.getElementById('btnExcel').addEventListener('click', () => {
             if(!currentData.Suhu) return;
-            
-            // EXCEL SEKARANG MENGGUNAKAN JAM & TGL ASLI DARI RTC
             let csv = "data:text/csv;charset=utf-8,Tanggal,Waktu,Suhu (C),Lux,Tegangan (V),Arus (mA),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
             csv += `${currentData.Tanggal},${currentData.Waktu},${currentData.Suhu},${currentData.Lux},${currentData.Tegangan},${currentData.Arus},${currentData.DayaKeluar},${currentData.Efisiensi},${currentData.StatusPompa}\n`;
-            
             const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv));
             link.setAttribute("download", `Data_PV_${currentData.Waktu.replace(/:/g,"-")}.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         });
+
+        // SISTEM KONTROL ESP32-CAM
+        const IP_KAMERA = "172.20.10.3"; 
+        
+        window.updateKamera = function(parameter, nilai) {
+            const url = `http://${IP_KAMERA}/control?var=${parameter}&val=${nilai}`;
+            fetch(url, { mode: 'no-cors' }) 
+                .then(() => console.log(`Berhasil merubah ${parameter}`))
+                .catch(err => console.error("Kamera gagal merespons", err));
+        };
+
+        let statusFlip = 0;
+        let statusMirror = 0;
+        window.toggleKamera = function(parameter) {
+            let nilaiBaru = 0;
+            if (parameter === 'vflip') {
+                statusFlip = statusFlip === 0 ? 1 : 0;
+                nilaiBaru = statusFlip;
+            } else if (parameter === 'hmirror') {
+                statusMirror = statusMirror === 0 ? 1 : 0;
+                nilaiBaru = statusMirror;
+            }
+            updateKamera(parameter, nilaiBaru);
+        };
     </script>
 </body>
 </html>
