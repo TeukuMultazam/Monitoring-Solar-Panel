@@ -389,7 +389,7 @@
             }, 800);
         });
 
-        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (Pemisah Semicolon ; agar otomatis terpisah di Excel)
+        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (Lux dibulatkan agar rapi tanpa salah baca ribuan di Excel)
         document.getElementById('btnExcel').addEventListener('click', () => {
             const btn = document.getElementById('btnExcel');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Mengambil Data...';
@@ -402,7 +402,8 @@
                     for (let key in data) {
                         let row = data[key];
                         let suhu = row.Suhu !== undefined ? row.Suhu : 0;
-                        let lux = row.Lux !== undefined ? row.Lux : 0;
+                        // Lux dibulatkan ke bilangan bulat (Math.round) agar aman dari masalah titik/koma desimal Excel
+                        let lux = row.Lux !== undefined ? Math.round(row.Lux) : 0;
                         let dayaMasuk = row.DayaMasuk !== undefined ? row.DayaMasuk : 0;
                         let tegangan = row.Tegangan !== undefined ? row.Tegangan : 0;
                         let arus = row.Arus !== undefined ? row.Arus : 0;
