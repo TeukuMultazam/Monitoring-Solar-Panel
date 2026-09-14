@@ -278,7 +278,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -389,13 +389,44 @@
             }, 800);
         });
 
+        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (20 MENIT SEKALI)
         document.getElementById('btnExcel').addEventListener('click', () => {
-            if(!currentData.Suhu) return;
-            let csv = "data:text/csv;charset=utf-8,Tanggal,Waktu,Suhu (C),Lux,Tegangan (V),Arus (mA),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
-            csv += `${currentData.Tanggal},${currentData.Waktu},${currentData.Suhu},${currentData.Lux},${currentData.Tegangan},${currentData.Arus},${currentData.DayaKeluar},${currentData.Efisiensi},${currentData.StatusPompa}\n`;
-            const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv));
-            link.setAttribute("download", `Data_PV_${currentData.Waktu.replace(/:/g,"-")}.csv`);
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            const btn = document.getElementById('btnExcel');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Mengambil Data...';
+            
+            get(ref(db, 'Riwayat_Data')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    let csv = "data:text/csv;charset=utf-8,Tanggal,Waktu,Suhu (C),Lux,Daya Masuk (W),Tegangan (V),Arus (mA),Daya Keluar (W),Efisiensi (%),Status Pompa\n";
+                    
+                    for (let key in data) {
+                        let row = data[key];
+                        let suhu = row.Suhu !== undefined ? row.Suhu : 0;
+                        let lux = row.Lux !== undefined ? row.Lux : 0;
+                        let dayaMasuk = row.DayaMasuk !== undefined ? row.DayaMasuk : 0;
+                        let tegangan = row.Tegangan !== undefined ? row.Tegangan : 0;
+                        let arus = row.Arus !== undefined ? row.Arus : 0;
+                        let dayaKeluar = row.DayaKeluar !== undefined ? row.DayaKeluar : 0;
+                        let efisiensi = row.Efisiensi !== undefined ? row.Efisiensi : 0;
+                        
+                        csv += `${row.Tanggal},${row.Waktu},${suhu},${lux},${dayaMasuk},${tegangan},${arus},${dayaKeluar},${efisiensi},${row.StatusPompa}\n`;
+                    }
+                    
+                    const link = document.createElement("a"); 
+                    link.setAttribute("href", encodeURI(csv));
+                    link.setAttribute("download", `Data_PV_Otomatis.csv`);
+                    document.body.appendChild(link); 
+                    link.click(); 
+                    document.body.removeChild(link);
+                } else {
+                    alert("Belum ada data historis yang tersimpan dari alat. Harap tunggu jadwal penyimpanan otomatis (09:00 - 17:00, setiap kelipatan 20 menit).");
+                }
+                btn.innerHTML = '<i class="fa-solid fa-file-excel me-2"></i> Unduh Laporan (.csv)';
+            }).catch((error) => {
+                console.error(error);
+                alert("Gagal mengunduh data!");
+                btn.innerHTML = '<i class="fa-solid fa-file-excel me-2"></i> Unduh Laporan (.csv)';
+            });
         });
     </script>
 </body>
