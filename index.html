@@ -125,56 +125,36 @@
             <!-- SECTION 1: DASHBOARD UTAMA -->
             <div id="section-dashboard" class="content-section">
                 
-                <!-- SECTION KAMERA & KONTROL -->
+                <!-- SECTION AKSES KAMERA (OFFLOADING) -->
                 <div class="row g-3 mb-4">
-                    <div class="col-lg-8 col-12">
-                        <div class="card-custom h-100">
+                    <div class="col-12">
+                        <div class="card-custom">
                             <h5 class="fw-bold mb-3 d-flex align-items-center fs-6" style="color: #0f172a;">
-                                <i class="fa-solid fa-video me-2 text-danger"></i> Live Monitoring Kamera
+                                <i class="fa-solid fa-video me-2 text-danger"></i> Akses Kamera Pemantau
                             </h5>
-                            <!-- PERUBAHAN ADA DI BAWAH SINI MENGGUNAKAN IFRAME -->
-                            <div class="video-container" style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 4/3;">
-                                <iframe id="kamera-stream" src="http://172.20.10.3:81/stream" style="width: 100%; height: 100%; border: none; overflow: hidden;" scrolling="no"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-12">
-                        <div class="card-custom h-100">
-                            <h5 class="fw-bold mb-4 d-flex align-items-center fs-6" style="color: #64748b;">
-                                <i class="fa-solid fa-sliders me-2"></i> Pengaturan Visual
-                            </h5>
-                            <div class="mb-4">
-                                <label class="form-label small fw-bold text-muted d-flex justify-content-between">
-                                    <span>Kecerahan</span> <span id="val-bright">0</span>
-                                </label>
-                                <input type="range" class="form-range" min="-2" max="2" value="0" onchange="updateKamera('brightness', this.value); document.getElementById('val-bright').innerText=this.value;">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label small fw-bold text-muted d-flex justify-content-between">
-                                    <span>Kontras</span> <span id="val-contra">0</span>
-                                </label>
-                                <input type="range" class="form-range" min="-2" max="2" value="0" onchange="updateKamera('contrast', this.value); document.getElementById('val-contra').innerText=this.value;">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label small fw-bold text-muted">Resolusi Stream</label>
-                                <select class="form-select bg-light" style="border-radius: 8px;" onchange="updateKamera('framesize', this.value)">
-                                    <option value="8">Tinggi (XGA - Lambat)</option>
-                                    <option value="6" selected>Sedang (VGA - Stabil)</option>
-                                    <option value="4">Rendah (QVGA - Cepat)</option>
-                                </select>
-                            </div>
-                            <div class="d-flex gap-2 mt-auto pt-2">
-                                <button class="btn btn-outline-secondary w-100 btn-sm fw-bold" onclick="toggleKamera('vflip')" style="border-radius: 8px;">
-                                    <i class="fa-solid fa-arrows-up-down"></i> Putar Vertikal
-                                </button>
-                                <button class="btn btn-outline-secondary w-100 btn-sm fw-bold" onclick="toggleKamera('hmirror')" style="border-radius: 8px;">
-                                    <i class="fa-solid fa-arrows-left-right"></i> Cermin Horizontal
-                                </button>
+                            <div class="video-container d-flex flex-column align-items-center justify-content-center text-center p-4 p-md-5" style="width: 100%; border-radius: 12px; background: #0f172a; border: 2px dashed #334155;">
+                                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 50%; margin-bottom: 20px;">
+                                    <i class="fa-solid fa-network-wired" style="font-size: 3.5rem; color: #38bdf8;"></i>
+                                </div>
+                                <h5 class="text-white fw-bold mb-2 fs-5">Koneksi Kamera Lokal (Intranet)</h5>
+                                <p class="text-white-50 small mb-4 px-md-3" style="max-width: 650px; line-height: 1.6;">
+                                    Sistem web ini menggunakan hosting publik HTTPS. Untuk menghindari pemblokiran keamanan otomatis (Mixed Content) dari browser Chrome/Safari Anda, silakan akses aliran video secara langsung melalui jalur IP lokal kamera.
+                                </p>
+                                
+                                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center w-100" style="max-width: 500px;">
+                                    <a href="http://172.20.10.3:81/stream" target="_blank" class="btn btn-primary fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
+                                        <i class="fa-solid fa-arrow-up-right-from-square me-2"></i> Buka Live Video
+                                    </a>
+                                    <a href="http://172.20.10.3" target="_blank" class="btn btn-outline-light fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
+                                        <i class="fa-solid fa-sliders me-2"></i> Pengaturan
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- SECTION DATA KELISTRIKAN -->
                 <div class="row g-3 mb-4">
                     <div class="col-xl-3 col-md-6 col-12">
                         <div class="card-custom">
@@ -214,6 +194,7 @@
                     </div>
                 </div>
 
+                <!-- SECTION PARAMETER DETAIL -->
                 <div class="row g-3">
                     <div class="col-lg-6 col-12">
                         <div class="card-custom h-100">
@@ -416,30 +397,6 @@
             link.setAttribute("download", `Data_PV_${currentData.Waktu.replace(/:/g,"-")}.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         });
-
-        // SISTEM KONTROL ESP32-CAM
-        const IP_KAMERA = "172.20.10.3"; 
-        
-        window.updateKamera = function(parameter, nilai) {
-            const url = `http://${IP_KAMERA}/control?var=${parameter}&val=${nilai}`;
-            fetch(url, { mode: 'no-cors' }) 
-                .then(() => console.log(`Berhasil merubah ${parameter}`))
-                .catch(err => console.error("Kamera gagal merespons", err));
-        };
-
-        let statusFlip = 0;
-        let statusMirror = 0;
-        window.toggleKamera = function(parameter) {
-            let nilaiBaru = 0;
-            if (parameter === 'vflip') {
-                statusFlip = statusFlip === 0 ? 1 : 0;
-                nilaiBaru = statusFlip;
-            } else if (parameter === 'hmirror') {
-                statusMirror = statusMirror === 0 ? 1 : 0;
-                nilaiBaru = statusMirror;
-            }
-            updateKamera(parameter, nilaiBaru);
-        };
     </script>
 </body>
 </html>
