@@ -142,10 +142,11 @@
                                 </p>
                                 
                                 <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center w-100" style="max-width: 500px;">
-                                    <a href="http://172.20.10.3:81/stream" target="_blank" class="btn btn-primary fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
+                                    <!-- IP DIPERBARUI MENJADI 172.20.10.2 -->
+                                    <a href="http://172.20.10.2:81/stream" target="_blank" class="btn btn-primary fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
                                         <i class="fa-solid fa-arrow-up-right-from-square me-2"></i> Buka Live Video
                                     </a>
-                                    <a href="http://172.20.10.3" target="_blank" class="btn btn-outline-light fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
+                                    <a href="http://172.20.10.2" target="_blank" class="btn btn-outline-light fw-bold px-4 py-3 flex-grow-1" style="border-radius: 8px;">
                                         <i class="fa-solid fa-sliders me-2"></i> Pengaturan
                                     </a>
                                 </div>
@@ -389,7 +390,7 @@
             }, 800);
         });
 
-        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (Lux dibulatkan agar rapi tanpa salah baca ribuan di Excel)
+        // FUNGSI UNDUH REKAP DATA LOGGER OTOMATIS (Lux dibulatkan agar rapi di Excel)
         document.getElementById('btnExcel').addEventListener('click', () => {
             const btn = document.getElementById('btnExcel');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Mengambil Data...';
@@ -402,7 +403,6 @@
                     for (let key in data) {
                         let row = data[key];
                         let suhu = row.Suhu !== undefined ? row.Suhu : 0;
-                        // Lux dibulatkan ke bilangan bulat (Math.round) agar aman dari masalah titik/koma desimal Excel
                         let lux = row.Lux !== undefined ? Math.round(row.Lux) : 0;
                         let dayaMasuk = row.DayaMasuk !== undefined ? row.DayaMasuk : 0;
                         let tegangan = row.Tegangan !== undefined ? row.Tegangan : 0;
